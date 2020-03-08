@@ -14,4 +14,5 @@ gcloud functions deploy $NAME \
     --allow-unauthenticated \
     --entry-point $ENTRY_POINT \
     --runtime $RUNTIME \
+    --memory 128MB \
     --trigger-http
