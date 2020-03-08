@@ -18,6 +18,7 @@ steps:
       args: ['run','build']
       waitFor: ['packages']
     
-    #deploy to gcr, using just the branch name
-    # - name: 'gcr.io/cloud-builders/gcloud'
-    #   args: ['builds', 'submit', '.', '--tag','gcr.io/$PROJECT_ID/typescript-quickstart:$BRANCH_NAME']
+    # send it 
+    - name: "ubuntu"
+      args: ["bash", "./deploy.sh"]
+      
