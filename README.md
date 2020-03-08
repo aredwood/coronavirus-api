@@ -18,3 +18,6 @@ But it's really fine if you just gut the script, it isn't a bit deal.
 ## Linting
 `yarn run lint`
 
+## Further reading.
+Just in case you wanted to see a blog post about this that adds no further value
+https://alexredwood.com/blog/Building-a-Coronavirus-COVID19-API_bb8df168-9ac6-44af-8b98-ff26618108bd
