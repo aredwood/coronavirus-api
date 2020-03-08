@@ -1,7 +1,20 @@
-# typscript-quickstart
+# coronavirus-api 😷
 
-It's a typescript project, with a bunch of configuration - intended to minimize the setup time.
+It's a simple api that return the amount of: cases, recovered cases, and deaths.
+It has a cache time of 15 seconds against https://www.worldometers.info/coronavirus/
 
-## Sending builds on GCP
-Adhoc builds are allowed, and are sometimes quite useful - builds sent manually won't count towards anything.
-`gcloud builds submit --config cloudbuild.yaml .`
+https://us-central1-alex-redwood.cloudfunctions.net/coronavirus-api-master
+
+## Deployment
+*the branch name is just added as a suffix, eg `./deploy.sh master` results in `coronavirus-api-master`*
+
+But it's really fine if you just gut the script, it isn't a bit deal.
+
+`./deploy.sh <BRANCH_NAME>`
+
+## Testing
+`yarn run test`
+
+## Linting
+`yarn run lint`
+
