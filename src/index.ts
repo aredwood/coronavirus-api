@@ -18,6 +18,7 @@ const handler = async (req: Request,res: Response): Promise<void> => {
         // compute the response
         response = {
             note: "data provided by worldometers.info/coronavirus/",
+            repo:"https://github.com/aredwood/coronavirus-api",
             summary
         }
         
