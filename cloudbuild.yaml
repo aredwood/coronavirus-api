@@ -19,6 +19,6 @@ steps:
       waitFor: ['packages']
     
     # send it 
-    - name: "ubuntu"
+    - name: "google/cloud-sdk"
       args: ["bash", "./deploy.sh", "$BRANCH_NAME"]
       
