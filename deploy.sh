@@ -1,5 +1,10 @@
 #!/bin/bash
-NAME="coronavirus-api"
+
+RAW_BRANCH=$1
+
+BRANCH=$(echo $RAW_BRANCH | tr "/" "-")
+
+NAME="coronavirus-api-$BRANCH"
 REGION="us-central1"
 ENTRY_POINT="default"
 RUNTIME="nodejs10"
