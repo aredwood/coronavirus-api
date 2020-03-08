@@ -1,28 +1,35 @@
 {
-  "name": "typescript-quickstart",
-  "version": "0.1.0",
-  "description": "a TypeScript quickstart",
+  "name": "coronavirus-api",
+  "version": "1.0.0",
+  "description": "an api that returns live statistics about the COVID-19",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
-    "build-watch":"tsc --watch",
+    "build-watch": "tsc --watch",
     "lint": "eslint \"src/**\"",
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
     "launch": "node -r dotenv/config ./dist/index.js",
-    "start":"nodemon ./dist/index.js"
+    "start": "nodemon ./dist/index.js"
   },
   "repository": "https://github.com/aredwood/typescript-quickstart.git",
   "author": "Alex Redwood <aredwood@users.noreply.github.com>",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@types/express": "^4.17.2",
-    "express": "^4.17.1"
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "pino": "^5.17.0"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.16",
+    "@types/express": "^4.17.2",
     "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
+    "@types/pino": "^5.15.5",
     "@typescript-eslint/eslint-plugin": "^2.19.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.19.0",
     "@typescript-eslint/parser": "^2.19.0",

@@ -1,22 +1,36 @@
-// this is the entry point of the application
-// this is a web app that listens on 8080, and can be built into a container.
-// or deployed as a cloud function on GCP
-import express from "express";
+import getCoronavirusSummary from "./lib/getCoronavirusSummary";
+import {Request,Response} from "express";
+import lodash from "lodash"
+// https://cloud.google.com/functions/docs/bestpractices/tips#use_global_variables_to_reuse_objects_in_future_invocations
+let cache = {};
+const cacheTime = 0;
 
-const app = express();
+const handler = async (req: Request,res: Response): Promise<void> => {
 
-app.get("/",(req,res) => {
-    res.sendStatus(200);
-})
+    let response;
 
+    // if the cache is 15 seconds old
+    const oldCache = new Date().getTime() - cacheTime > 15 * 1000;
 
-// this is for functionality in a docker container
-if(!process.env.PORT){
-    throw new Error("NO_PORT_SPECIFIED");
+    if(lodash.isEmpty(cache) || oldCache){
+        const summary = await getCoronavirusSummary();
+
+        // compute the response
+        response = {
+            note: "data provided by worldometers.info/coronavirus/",
+            summary
+        }
+        
+        // save it to cache
+        cache = response;
+    }
+    else{
+        response = cache;
+    }
+
+    // send it
+    res.send(response);
 }
-else{
-    app.listen(Number(process.env.PORT));
-}
 
-// this line allows the app to be deployed as a google cloud function
-export default app;
+
+export default handler;
