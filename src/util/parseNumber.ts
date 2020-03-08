@@ -3,7 +3,7 @@
  * this takes that, and returns an actual number
  * @param {string} roughNumber - with spaces, and commas
  */
-const parseNumber = (roughNumber:string) => {
+const parseNumber = (roughNumber: string): number => {
     // splitting and joining is actually quicker
     return Number(roughNumber.split(",").join("").trim());
 }

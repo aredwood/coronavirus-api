@@ -5,7 +5,13 @@ import parseNumber from "../util/parseNumber";
 
 const sourceURL = "https://www.worldometers.info/coronavirus/"
 
-const getCoronavirusSummary = async () => {
+type ICoronavirusSummary = {
+    cases: number;
+    deaths: number;
+    recovered: number;
+}
+
+const getCoronavirusSummary = async (): Promise<ICoronavirusSummary> => {
     // download the html
     const {data} = await axios(sourceURL)
 
@@ -14,8 +20,8 @@ const getCoronavirusSummary = async () => {
 
     const summaries = $("#maincounter-wrap");
     
-    const statistics : {
-        [key:string]:number
+    const statistics: {
+        [key: string]: number;
     } = {};
 
     // extract each summary (cases, recovered, death)
@@ -35,7 +41,7 @@ const getCoronavirusSummary = async () => {
     });
 
 
-    return statistics;
+    return statistics as ICoronavirusSummary;
     
 }
 

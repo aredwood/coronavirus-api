@@ -1,12 +1,11 @@
 import getCoronavirusSummary from "./lib/getCoronavirusSummary";
 import {Request,Response} from "express";
-import logger from "./logger"
 import lodash from "lodash"
 // https://cloud.google.com/functions/docs/bestpractices/tips#use_global_variables_to_reuse_objects_in_future_invocations
 let cache = {};
-let cacheTime = 0;
+const cacheTime = 0;
 
-const handler = async (req:Request,res:Response) => {
+const handler = async (req: Request,res: Response): Promise<void> => {
 
     let response;
 
