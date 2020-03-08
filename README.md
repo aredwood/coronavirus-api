@@ -1,4 +1,4 @@
-# coronavirus-api
+# coronavirus-api 😷
 
 It's a simple api that return the amount of: cases, recovered cases, and deaths.
 It has a cache time of 15 seconds against https://www.worldometers.info/coronavirus/
