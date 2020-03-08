@@ -17,8 +17,3 @@ steps:
     - name: 'gcr.io/cloud-builders/yarn'
       args: ['run','build']
       waitFor: ['packages']
-    
-    # send it 
-    - name: "ubuntu"
-      args: ["bash", "./deploy.sh"]
-      
