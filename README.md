@@ -12,8 +12,6 @@ But it's really fine if you just gut the script, it isn't a bit deal.
 
 `./deploy.sh <BRANCH_NAME>`
 
-
-
 ## Testing
 `yarn run test`
 
