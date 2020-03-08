@@ -1,0 +1,23 @@
+# we can lint, test and build at the same time.
+
+steps:
+    # install packages
+    - name: 'gcr.io/cloud-builders/yarn'
+      id: "packages"
+    
+    # unit test
+    - name: 'gcr.io/cloud-builders/yarn'
+      args: ['run','test']
+      waitFor: ["packages"]
+    # lint
+    - name: 'gcr.io/cloud-builders/yarn'
+      args: ['run','lint']
+      waitFor: ['packages']
+    # compile
+    - name: 'gcr.io/cloud-builders/yarn'
+      args: ['run','build']
+      waitFor: ['packages']
+    
+    #deploy to gcr, using just the branch name
+    # - name: 'gcr.io/cloud-builders/gcloud'
+    #   args: ['builds', 'submit', '.', '--tag','gcr.io/$PROJECT_ID/typescript-quickstart:$BRANCH_NAME']
