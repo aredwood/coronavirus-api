@@ -18,10 +18,11 @@ const handler = async (req: Request,res: Response): Promise<void> => {
 
         // compute the response
         response = {
-            note: "data provided by worldometers.info/coronavirus/",
-            repo:"https://github.com/aredwood/coronavirus-api",
+            source: "worldometers.info",
+            by:"github.com/aredwood",
             summary,
             breakdown
+
         }
         
         // save it to cache
