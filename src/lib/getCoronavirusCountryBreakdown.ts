@@ -2,15 +2,26 @@
 import cheerio from "cheerio";
 import axios from "axios";
 import parseNumber from "../util/parseNumber";
-import getCoronavirusSummary from "./getCoronavirusSummary";
 
 const sourceURL = "https://www.worldometers.info/coronavirus/"
 
-interface ICountryRaw{
-    [key:string] :string;
+interface CountryRaw{
+    [key: string]: string;
+}
+interface Country{
+    country: string;
+    totalCases: number;
+    newCases: number;
+    totalDeaths: number;
+    newDeaths: number;
+    totalRecovered: number;
+    activeCases: number;
+    seriousCases: number;
+    casesPer1M: number;
 }
 
-const getCoronavirusCountryBreakdown = async (): Promise<any> => {
+
+const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     // download the html
     const {data} = await axios(sourceURL)
 
@@ -43,11 +54,11 @@ const getCoronavirusCountryBreakdown = async (): Promise<any> => {
 
     const mainTable = $("#main_table_countries").find("tbody").children();
 
-    let countries : ICountryRaw[] = [];
+    const countries: CountryRaw[] = [];
 
     mainTable.each((countryIndex,countryRow) => {
 
-        let country : ICountryRaw = {}
+        const country: CountryRaw = {}
 
         // element refers to a country row
         $(countryRow).children().each((columnIndex,columnElement) => {
@@ -62,23 +73,13 @@ const getCoronavirusCountryBreakdown = async (): Promise<any> => {
         countries.push(country)
     });
 
-    interface ICountry{
-        country:string,
-        totalCases:number,
-        newCases:number,
-        totalDeaths:number,
-        newDeaths:number,
-        totalRecovered:number,
-        activeCases:number,
-        seriousCases:number,
-        casesPer1M:number
-    }
 
     // clean the data, 
-    const cleanCountries = (countries:ICountryRaw[]) : ICountry[] => {
-        const cleanedCountries : ICountry[] = [];
+    const cleanCountries = (countries: CountryRaw[]): Country[] => {
+        const cleanedCountries: Country[] = [];
 
         countries.forEach(countryEntry => {
+
             Object.keys(countryEntry).forEach(key => {
                 countryEntry[key] = countryEntry[key].trim();
                 if(countryEntry[key] === ""){
@@ -88,12 +89,11 @@ const getCoronavirusCountryBreakdown = async (): Promise<any> => {
                 if(key !== "country"){
                     // happens on all numerical keys
                     countryEntry[key] = countryEntry[key].replace("+","");
-                    //@ts-ignore
-                    countryEntry[key] = parseNumber(countryEntry[key]);
+                    countryEntry[key] = parseNumber(countryEntry[key]) as unknown as string;
                 }
             });
 
-            cleanedCountries.push(countryEntry as unknown as ICountry);
+            cleanedCountries.push(countryEntry as unknown as Country);
         });
 
 
