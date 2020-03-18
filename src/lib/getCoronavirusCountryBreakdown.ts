@@ -52,7 +52,7 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     ]
 
 
-    const mainTable = $("#main_table_countries").find("tbody").children();
+    const mainTable = $("#main_table_countries_today").find("tbody").children();
 
     const countries: CountryRaw[] = [];
 
@@ -107,6 +107,11 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     return cleanedCountries;
     
 }
+
+
+getCoronavirusCountryBreakdown().then(res => {
+    console.log(JSON.stringify(res))
+})
 
 export default getCoronavirusCountryBreakdown;
 
