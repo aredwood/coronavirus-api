@@ -1,7 +1,7 @@
-import getCoronavirusSummary from "./lib/getCoronavirusSummary";
+// import getCoronavirusSummary from "./lib/getCoronavirusSummary";
 import {Request,Response} from "express";
-import lodash, { IsEqualCustomizer } from "lodash"
-import {CountryRaw,Country} from "./types";
+import lodash from "lodash"
+import {Country} from "./types";
 import getCoronavirusCountryBreakdown from "./lib/getCoronavirusCountryBreakdown";
 // https://cloud.google.com/functions/docs/bestpractices/tips#use_global_variables_to_reuse_objects_in_future_invocations
 let cache = {};
