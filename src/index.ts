@@ -14,7 +14,15 @@ const handler = async (req: Request,res: Response): Promise<void> => {
     const oldCache = new Date().getTime() - cacheTime > 15 * 1000;
 
     if(lodash.isEmpty(cache) || oldCache){
-        const [summary,breakdown] = await Promise.all([getCoronavirusSummary(),getCoronavirusCountryBreakdown()])
+        // const [summary,breakdown] = await Promise.all([getCoronavirusSummary(),getCoronavirusCountryBreakdown()]);
+
+        const breakdown = await getCoronavirusCountryBreakdown();
+        
+        // we can now get the summary from the country table
+        // https://github.com/aredwood/coronavirus-api/issues/10
+        const [summary] = breakdown.filter(countryBreakdown => {
+            return countryBreakdown.country === "Total:";
+        })
 
         // compute the response
         response = {
