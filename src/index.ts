@@ -27,7 +27,7 @@ const handler = async (req: Request,res: Response): Promise<void> => {
         // });
 
         // we can pop it, because it is reliably last in the array
-        const [summaryData] = breakdown.pop() as unknown as Country[];
+        const summaryData = breakdown.pop() as unknown as Country;
 
         const summary = {
             // deaths
