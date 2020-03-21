@@ -1,6 +1,7 @@
 import getCoronavirusSummary from "./lib/getCoronavirusSummary";
 import {Request,Response} from "express";
-import lodash from "lodash"
+import lodash, { IsEqualCustomizer } from "lodash"
+import {CountryRaw,Country} from "./types";
 import getCoronavirusCountryBreakdown from "./lib/getCoronavirusCountryBreakdown";
 // https://cloud.google.com/functions/docs/bestpractices/tips#use_global_variables_to_reuse_objects_in_future_invocations
 let cache = {};
@@ -20,9 +21,29 @@ const handler = async (req: Request,res: Response): Promise<void> => {
         
         // we can now get the summary from the country table
         // https://github.com/aredwood/coronavirus-api/issues/10
-        const [summary] = breakdown.filter(countryBreakdown => {
-            return countryBreakdown.country === "Total:";
-        })
+
+        // const [summaryData] = breakdown.filter(countryBreakdown => {
+        //     return countryBreakdown.country === "Total:";
+        // });
+
+        // we can pop it, because it is reliably last in the array
+        const [summaryData] = breakdown.pop() as unknown as Country[];
+
+        const summary = {
+            // deaths
+            deaths:summaryData.totalDeaths,
+            newDeaths: summaryData.newDeaths,
+            // recovered
+            recovered:summaryData.totalRecovered,
+            // cases
+            casesPer1M: summaryData.casesPer1M,
+            cases: summaryData.totalCases,
+            newCases: summaryData.newCases,
+            activeCases: summaryData.activeCases,
+            seriousCases: summaryData.seriousCases
+        }
+
+
 
         // compute the response
         response = {

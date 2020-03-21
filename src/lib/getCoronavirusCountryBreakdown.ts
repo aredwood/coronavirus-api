@@ -2,24 +2,8 @@
 import cheerio from "cheerio";
 import axios from "axios";
 import parseNumber from "../util/parseNumber";
-
+import {Country,CountryRaw} from "../types";
 const sourceURL = "https://www.worldometers.info/coronavirus/"
-
-interface CountryRaw{
-    [key: string]: string;
-}
-interface Country{
-    country: string;
-    totalCases: number;
-    newCases: number;
-    totalDeaths: number;
-    newDeaths: number;
-    totalRecovered: number;
-    activeCases: number;
-    seriousCases: number;
-    casesPer1M: number;
-}
-
 
 const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     // download the html

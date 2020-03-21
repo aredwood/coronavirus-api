@@ -1,4 +1,4 @@
-// this is the entry point of the application
+//TODO deprecate
 import cheerio from "cheerio";
 import axios from "axios";
 import parseNumber from "../util/parseNumber";
