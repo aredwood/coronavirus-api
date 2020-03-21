@@ -92,10 +92,5 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     
 }
 
-
-getCoronavirusCountryBreakdown().then(res => {
-    console.log(JSON.stringify(res))
-})
-
 export default getCoronavirusCountryBreakdown;
 
