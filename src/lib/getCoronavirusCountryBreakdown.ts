@@ -47,7 +47,13 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
         // element refers to a country row
         $(countryRow).children().each((columnIndex,columnElement) => {
             // console.log($(columnElement).text());
+            // we dont process any key that isn't in the keys array above
+            if(columnIndex > keys.length - 1){
+                return;
+            }
+
             const key = keys[columnIndex];
+
             const value = $(columnElement).text();
 
             country[key] = value;
@@ -92,5 +98,8 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     
 }
 
+getCoronavirusCountryBreakdown().then(res => {
+    console.log(res)
+})
 export default getCoronavirusCountryBreakdown;
 
