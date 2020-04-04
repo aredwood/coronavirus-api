@@ -56,11 +56,15 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
 
             const value = $(columnElement).text();
 
-            country[key] = value;
+            country[key] = value; 
 
         });
 
-        countries.push(country)
+        // we put this here, because "world" was added as a row in the table.
+        if(country.country !== "world"){
+            countries.push(country)
+        }
+
     });
 
 
