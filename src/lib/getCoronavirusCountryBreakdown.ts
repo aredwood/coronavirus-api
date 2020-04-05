@@ -60,8 +60,8 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
 
         });
 
-        // we put this here, because "world" was added as a row in the table.
-        if(country.country !== "world"){
+        // we put this here, because "World" was added as a row in the table.
+        if(country.country !== "World"){
             countries.push(country)
         }
 
