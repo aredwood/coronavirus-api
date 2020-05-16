@@ -18,32 +18,53 @@ const getCoronavirusSummary = async (): Promise<ICoronavirusSummary> => {
     // parse it with cheerio
     const $ = cheerio.load(data);
 
-    const summaries = $("#maincounter-wrap");
     
     const statistics: {
         [key: string]: number;
     } = {};
 
-    // extract each summary (cases, recovered, death)
-    summaries.each((index,element) => {
-        const rawNumber = $(element).find(".maincounter-number").text();
-        const rawName = $(element).find("h1").text();
+    const worldRow = $('tbody[class=total_row_body]').find("tr").first()
 
+    const headChildren = $("#main_table_countries_today").find("thead").find("tr").children();
 
-        const number = parseNumber(rawNumber);
-        
-        // one of the names is "coronavirus cases"
-        // just hardcoding a change to cases, since we already have the context
-        const name = rawName.replace(":","").toLowerCase().replace("coronavirus ","")
+    const tableKeys: string[] = [];
 
-        statistics[name] = number;
-
+    headChildren.each((index,element) => {
+        tableKeys.push($(element).text())
     });
 
+    let rawWorldObject : {
+        [key:string]:string
+    } = {};
 
-    return statistics as ICoronavirusSummary;
+    $(worldRow).children().each((index,child) => {
+        rawWorldObject[tableKeys[index]] = $(child).text();
+    })
+
+    const summary = {
+        deaths: parseNumber(rawWorldObject['TotalDeaths']),
+        cases: parseNumber(rawWorldObject["TotalCases"]),
+        newCases: parseNumber(rawWorldObject["NewCases"]),
+        newDeaths: parseNumber(rawWorldObject["NewDeaths"]),
+        recovered: parseNumber(rawWorldObject["TotalRecovered"]),
+        activeCases: parseNumber(rawWorldObject["ActiveCases"]),
+        seriousCases: parseNumber(rawWorldObject["Serious,Critical"]),
+        casesPer1M: parseNumber(rawWorldObject["Tot Cases/1M pop"]),
+    }
+
+
+
+
+
+
+
+    return summary as ICoronavirusSummary;
     
 }
+
+getCoronavirusSummary().then(res => {
+    return res;
+})
 
 export default getCoronavirusSummary;
 
