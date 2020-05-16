@@ -17,7 +17,7 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
 
     const headChildren = $("#main_table_countries_today").find("thead").find("tr").children();
 
-    const tableKeys: any[] = [];
+    const tableKeys: string[] = [];
 
     headChildren.each((index,element) => {
         tableKeys.push($(element).text())
@@ -70,65 +70,6 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     })
 
     return cleanedCountries;
-
-
-    // mainTable.each((countryIndex,countryRow) => {
-
-    //     const country: CountryRaw = {}
-
-    //     // element refers to a country row
-    //     $(countryRow).children().each((columnIndex,columnElement) => {
-    //         // console.log($(columnElement).text());
-    //         // we dont process any key that isn't in the keys array above
-    //         if(columnIndex > keys.length -1){
-    //             return;
-    //         }
-
-    //         const elementValue = $(columnElement).text();
-
-    //         const key = keys[columnIndex];
-
-    //         const value = $(columnElement).text();
-
-    //         country[key] = value;
-
-    //     });
-
-    //     countries.push(country)
-    // });
-
-
-    // // clean the data, 
-    // const cleanCountries = (countries: CountryRaw[]): Country[] => {
-    //     const cleanedCountries: Country[] = [];
-
-    //     countries.forEach(countryEntry => {
-
-    //         Object.keys(countryEntry).forEach(key => {
-    //             countryEntry[key] = countryEntry[key].trim();
-    //             if(countryEntry[key] === ""){
-    //                 countryEntry[key] = "0";
-    //             }
-
-    //             if(key !== "country"){
-    //                 // happens on all numerical keys
-    //                 countryEntry[key] = countryEntry[key].replace("+","");
-    //                 countryEntry[key] = parseNumber(countryEntry[key]) as unknown as string;
-    //             }
-    //         });
-
-    //         cleanedCountries.push(countryEntry as unknown as Country);
-    //     });
-
-
-    //     return cleanedCountries
-
-
-    // }
-
-    // const cleanedCountries = cleanCountries(countries);
-
-    // return cleanedCountries;
     
 }
 
