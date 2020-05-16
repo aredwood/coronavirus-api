@@ -12,50 +12,27 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     // parse it with cheerio
     const $ = cheerio.load(data);
 
-    // while the block below works, the text is a bit messy,
-    // so its more readable if we just write the keys out manually.
-
-    // const schema = $("#main_table_countries").find("thead").find("th")
-
-    // let keys : string[] = [];
-
-    // schema.each((index,element) => {
-    //     keys.push($(element).text())
-    // });
-
-    const keys = [
-        "country",
-        "totalCases",
-        "newCases",
-        "totalDeaths",
-        "newDeaths",
-        "totalRecovered",
-        "activeCases",
-        "seriousCases",
-        "casesPer1M"
-    ]
-
     // there are some "continent" rows here.
     const mainTable = $("#main_table_countries_today").find("tbody:nth-child(2)").find("tr")
 
     const headChildren = $("#main_table_countries_today").find("thead").find("tr").children();
 
-    const tableKeys:any[] = [];
+    const tableKeys: any[] = [];
 
     headChildren.each((index,element) => {
         tableKeys.push($(element).text())
     })
 
+    //TODO create & implement a CountryRaw Type.
 
 
-
-    let countries:any[] = [];
+    const countries: any[] = [];
     // this loops through each country
     mainTable.each((countryIndex,row) => {
         const columns = $(row).children();
         // this loops through each column, in each country row
-        let country : {
-            [key:string]:string
+        const country: {
+            [key: string]: string;
         } = {};
         $(columns).each((columnIndex,columnValue) => {
             const value = $(columnValue).text();
@@ -72,7 +49,7 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     });
 
 
-    const cleanCountry = (country:any) : Country => {
+    const cleanCountry = (country: any): Country => {
         const cleanCountry = {
             country:country["Country,Other"],
             totalCases: parseNumber(country["TotalCases"]),
