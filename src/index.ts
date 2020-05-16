@@ -1,5 +1,5 @@
 // import getCoronavirusSummary from "./lib/getCoronavirusSummary";
-import {Request,Response} from "express";
+import {Request,Response, NextFunction} from "express";
 import lodash from "lodash"
 import Joi from '@hapi/joi';
 import getCoronavirusCountryBreakdown from "./lib/getCoronavirusCountryBreakdown";
@@ -46,17 +46,22 @@ const handler = async (req: Request,res: Response): Promise<void> => {
         const breakdownValidationSchema = Joi.array().items(countryValidationSchema);
 
         try{
-            await Promise.all(
-                [
-                    breakdownValidationSchema.validateAsync(breakdown),
-                    summaryValidationSchema.validateAsync(summary)
-                ]
-            )
+            // await Promise.all(
+            //     [
+            //         breakdownValidationSchema.validateAsync(breakdown),
+            //         summaryValidationSchema.validateAsync(summary)
+            //     ]
+            // )
+            Joi.assert(breakdown,breakdownValidationSchema)
+            Joi.assert(summary,summaryValidationSchema)
         }
         catch(err){
-            console.error(err);
+            console.error(err.toString());
             //TODO report why the validation failed.
-            throw new Error("VALIDATION FAILED");
+            res.status(500);
+            res.send({
+                msg:"There was likely a upstream change, which has negatively affected this API - please raise an issue https://github.com/aredwood/coronavirus-api/issues if the issue persists."
+            });
         }
 
         // shape the response
