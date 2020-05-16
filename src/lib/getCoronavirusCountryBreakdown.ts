@@ -2,7 +2,7 @@
 import cheerio from "cheerio";
 import axios from "axios";
 import parseNumber from "../util/parseNumber";
-import {Country,CountryRaw} from "../types";
+import {Country} from "../types";
 const sourceURL = "https://www.worldometers.info/coronavirus/"
 
 const getCoronavirusCountryBreakdown = async (): Promise<any> => {
@@ -73,16 +73,16 @@ const getCoronavirusCountryBreakdown = async (): Promise<any> => {
 
 
     const cleanCountry = (country:any) : Country => {
-        const cleanCountry : any = {
+        const cleanCountry = {
             country:country["Country,Other"],
-            totalCases: parseNumber(country["TotalCases"],1),
-            newCases: parseNumber(country["NewCases"],2),
-            totalDeaths: parseNumber(country["TotalDeaths"],2),
-            newDeaths: parseNumber(country["NewDeaths"],3),
-            totalRecovered: parseNumber(country["TotalRecovered"],4),
-            activeCases: parseNumber(country["ActiveCases"],5),
-            seriousCases: parseNumber(country["Serious,Critical"],6),
-            casesPer1M: parseNumber(country["Tot Cases/1M pop"],7),
+            totalCases: parseNumber(country["TotalCases"]),
+            newCases: parseNumber(country["NewCases"]),
+            totalDeaths: parseNumber(country["TotalDeaths"]),
+            newDeaths: parseNumber(country["NewDeaths"]),
+            totalRecovered: parseNumber(country["TotalRecovered"]),
+            activeCases: parseNumber(country["ActiveCases"]),
+            seriousCases: parseNumber(country["Serious,Critical"]),
+            casesPer1M: parseNumber(country["Tot Cases/1M pop"]),
         }
 
         return cleanCountry as unknown as Country;
