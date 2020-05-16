@@ -5,7 +5,7 @@ import parseNumber from "../util/parseNumber";
 import {Country} from "../types";
 const sourceURL = "https://www.worldometers.info/coronavirus/"
 
-const getCoronavirusCountryBreakdown = async (): Promise<any> => {
+const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     // download the html
     const {data} = await axios(sourceURL)
 
