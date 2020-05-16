@@ -18,10 +18,6 @@ const getCoronavirusSummary = async (): Promise<ICoronavirusSummary> => {
     // parse it with cheerio
     const $ = cheerio.load(data);
 
-    
-    const statistics: {
-        [key: string]: number;
-    } = {};
 
     const worldRow = $('tbody[class=total_row_body]').find("tr").first()
 
@@ -33,8 +29,8 @@ const getCoronavirusSummary = async (): Promise<ICoronavirusSummary> => {
         tableKeys.push($(element).text())
     });
 
-    let rawWorldObject : {
-        [key:string]:string
+    const rawWorldObject: {
+        [key: string]: string;
     } = {};
 
     $(worldRow).children().each((index,child) => {
@@ -52,19 +48,9 @@ const getCoronavirusSummary = async (): Promise<ICoronavirusSummary> => {
         casesPer1M: parseNumber(rawWorldObject["Tot Cases/1M pop"]),
     }
 
-
-
-
-
-
-
     return summary as ICoronavirusSummary;
     
 }
-
-getCoronavirusSummary().then(res => {
-    return res;
-})
 
 export default getCoronavirusSummary;
 
