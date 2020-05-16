@@ -1,3 +1,4 @@
+import Joi from "@hapi/joi";
 /**
  * the number is returned as it is displayed - with spaces and columns
  * this takes that, and returns an actual number
@@ -6,7 +7,10 @@
 const parseNumber = (roughNumber: string): number => {
     // splitting and joining is actually quicker
     try{
-        return Number(roughNumber.split(",").join("").trim());
+        const value =  Number(roughNumber.split(",").join("").trim());
+
+        Joi.assert(value,Joi.number().positive())
+        return value;
     }
     catch(err){
         return 0;
