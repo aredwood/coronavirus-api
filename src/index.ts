@@ -21,26 +21,26 @@ const handler = async (req: Request,res: Response): Promise<void> => {
         const [summary,breakdown] = await Promise.all([getCoronavirusSummary(),getCoronavirusCountryBreakdown()]);
 
         const summaryValidationSchema = Joi.object({
-            deaths: Joi.number().positive(),
-            cases: Joi.number().positive(),
-            newCases: Joi.number().positive(),
-            newDeaths: Joi.number().positive(),
-            recovered: Joi.number().positive(),
-            activeCases: Joi.number().positive(),
-            seriousCases: Joi.number().positive(),
-            casesPer1M: Joi.number().positive()
+            deaths: Joi.number().min(0),
+            cases: Joi.number().min(0),
+            newCases: Joi.number().min(0),
+            newDeaths: Joi.number().min(0),
+            recovered: Joi.number().min(0),
+            activeCases: Joi.number().min(0),
+            seriousCases: Joi.number().min(0),
+            casesPer1M: Joi.number().min(0)
         })
 
         const countryValidationSchema = Joi.object({
             country: Joi.string().min(1),
-            totalCases: Joi.number().positive(),
-            newCases: Joi.number().positive(),
-            totalDeaths: Joi.number().positive(),
-            newDeaths: Joi.number().positive(),
-            totalRecovered: Joi.number().positive(),
-            activeCases: Joi.number().positive(),
-            seriousCases: Joi.number().positive(),
-            casesPer1M: Joi.number().positive()
+            totalCases: Joi.number().min(0),
+            newCases: Joi.number().min(0),
+            totalDeaths: Joi.number().min(0),
+            newDeaths: Joi.number().min(0),
+            totalRecovered: Joi.number().min(0),
+            activeCases: Joi.number().min(0),
+            seriousCases: Joi.number().min(0),
+            casesPer1M: Joi.number().min(0)
         })
 
         const breakdownValidationSchema = Joi.array().items(countryValidationSchema);
