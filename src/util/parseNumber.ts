@@ -5,7 +5,12 @@
  */
 const parseNumber = (roughNumber: string): number => {
     // splitting and joining is actually quicker
-    return Number(roughNumber.split(",").join("").trim());
+    try{
+        return Number(roughNumber.split(",").join("").trim());
+    }
+    catch(err){
+        return 0;
+    }
 }
 
 export default parseNumber;

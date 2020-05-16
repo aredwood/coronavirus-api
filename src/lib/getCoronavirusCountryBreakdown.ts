@@ -2,7 +2,7 @@
 import cheerio from "cheerio";
 import axios from "axios";
 import parseNumber from "../util/parseNumber";
-import {Country,CountryRaw} from "../types";
+import {Country} from "../types";
 const sourceURL = "https://www.worldometers.info/coronavirus/"
 
 const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
@@ -12,94 +12,66 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     // parse it with cheerio
     const $ = cheerio.load(data);
 
-    // while the block below works, the text is a bit messy,
-    // so its more readable if we just write the keys out manually.
+    // there are some "continent" rows here.
+    const mainTable = $("#main_table_countries_today").find("tbody:nth-child(2)").find("tr")
 
-    // const schema = $("#main_table_countries").find("thead").find("th")
+    const headChildren = $("#main_table_countries_today").find("thead").find("tr").children();
 
-    // let keys : string[] = [];
+    const tableKeys: string[] = [];
 
-    // schema.each((index,element) => {
-    //     keys.push($(element).text())
-    // });
+    headChildren.each((index,element) => {
+        tableKeys.push($(element).text())
+    })
 
-    const keys = [
-        "country",
-        "totalCases",
-        "newCases",
-        "totalDeaths",
-        "newDeaths",
-        "totalRecovered",
-        "activeCases",
-        "seriousCases",
-        "casesPer1M"
-    ]
+    //TODO create & implement a CountryRaw Type.
 
 
-    const mainTable = $("#main_table_countries_today").find("tbody").children();
-
-    const countries: CountryRaw[] = [];
-
-    mainTable.each((countryIndex,countryRow) => {
-
-        const country: CountryRaw = {}
-
-        // element refers to a country row
-        $(countryRow).children().each((columnIndex,columnElement) => {
-            // console.log($(columnElement).text());
-            // we dont process any key that isn't in the keys array above
-            if(columnIndex > keys.length - 1){
-                return;
-            }
-
-            const key = keys[columnIndex];
-
-            const value = $(columnElement).text();
-
+    const countries: any[] = [];
+    // this loops through each country
+    mainTable.each((countryIndex,row) => {
+        const columns = $(row).children();
+        // this loops through each column, in each country row
+        const country: {
+            [key: string]: string;
+        } = {};
+        $(columns).each((columnIndex,columnValue) => {
+            const value = $(columnValue).text();
+            const key = tableKeys[columnIndex];
             country[key] = value;
-
         });
 
-        countries.push(country)
+        // this removes all continents, we're not interested in that group
+        // countries.push(country);
+        if(country["#"] !== ""){
+            countries.push(country)
+        }
+
     });
 
 
-    // clean the data, 
-    const cleanCountries = (countries: CountryRaw[]): Country[] => {
-        const cleanedCountries: Country[] = [];
+    const cleanCountry = (country: any): Country => {
+        const cleanCountry = {
+            country:country["Country,Other"],
+            totalCases: parseNumber(country["TotalCases"]),
+            newCases: parseNumber(country["NewCases"]),
+            totalDeaths: parseNumber(country["TotalDeaths"]),
+            newDeaths: parseNumber(country["NewDeaths"]),
+            totalRecovered: parseNumber(country["TotalRecovered"]),
+            activeCases: parseNumber(country["ActiveCases"]),
+            seriousCases: parseNumber(country["Serious,Critical"]),
+            casesPer1M: parseNumber(country["Tot Cases/1M pop"]),
+        }
 
-        countries.forEach(countryEntry => {
-
-            Object.keys(countryEntry).forEach(key => {
-                countryEntry[key] = countryEntry[key].trim();
-                if(countryEntry[key] === ""){
-                    countryEntry[key] = "0";
-                }
-
-                if(key !== "country"){
-                    // happens on all numerical keys
-                    countryEntry[key] = countryEntry[key].replace("+","");
-                    countryEntry[key] = parseNumber(countryEntry[key]) as unknown as string;
-                }
-            });
-
-            cleanedCountries.push(countryEntry as unknown as Country);
-        });
-
-
-        return cleanedCountries
-
-
+        return cleanCountry as unknown as Country;
     }
 
-    const cleanedCountries = cleanCountries(countries);
+    const cleanedCountries = countries.map(country => {
+        return cleanCountry(country);
+    })
 
     return cleanedCountries;
     
 }
 
-getCoronavirusCountryBreakdown().then(res => {
-    console.log(res)
-})
 export default getCoronavirusCountryBreakdown;
 
