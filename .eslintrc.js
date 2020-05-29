@@ -9,6 +9,11 @@ module.exports = {
         "project": "tsconfig.json",
         "sourceType": "module"
     },
+    "rules":{
+        "no-multiple-empty-lines":["error",{
+            "max":1
+        }]
+    },
     "plugins": [
         "@typescript-eslint",
     ]

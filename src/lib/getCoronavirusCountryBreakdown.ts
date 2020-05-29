@@ -24,9 +24,11 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
     })
 
     //TODO create & implement a CountryRaw Type.
+    interface CountryRaw{
+        [key: string]: string;
+    }
 
-
-    const countries: any[] = [];
+    const countries: CountryRaw[] = [];
     // this loops through each country
     mainTable.each((countryIndex,row) => {
         const columns = $(row).children();
@@ -48,8 +50,7 @@ const getCoronavirusCountryBreakdown = async (): Promise<Country[]> => {
 
     });
 
-
-    const cleanCountry = (country: any): Country => {
+    const cleanCountry = (country: CountryRaw): Country => {
         const cleanCountry = {
             country:country["Country,Other"],
             totalCases: parseNumber(country["TotalCases"]),
