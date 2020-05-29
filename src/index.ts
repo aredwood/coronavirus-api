@@ -1,5 +1,5 @@
 // import getCoronavirusSummary from "./lib/getCoronavirusSummary";
-import {Request,Response, NextFunction} from "express";
+import {Request,Response} from "express";
 import lodash from "lodash"
 import Joi from '@hapi/joi';
 import getCoronavirusCountryBreakdown from "./lib/getCoronavirusCountryBreakdown";
@@ -16,7 +16,6 @@ const handler = async (req: Request,res: Response): Promise<void> => {
     const oldCache = new Date().getTime() - cacheTime > 15 * 1000;
 
     if(lodash.isEmpty(cache) || oldCache){
-
 
         const [summary,breakdown] = await Promise.all([getCoronavirusSummary(),getCoronavirusCountryBreakdown()]);
 
@@ -81,6 +80,5 @@ const handler = async (req: Request,res: Response): Promise<void> => {
     // send it
     res.send(response);
 }
-
 
 export default handler;

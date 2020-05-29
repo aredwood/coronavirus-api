@@ -7,6 +7,7 @@
     "build": "tsc",
     "build-watch": "tsc --watch",
     "lint": "eslint \"src/**\"",
+    "lint-watch": "nodemon -x 'yarn run lint'",
     "test": "jest",
     "test-watch": "jest --watch",
     "test-coverage": "jest --coverage",
