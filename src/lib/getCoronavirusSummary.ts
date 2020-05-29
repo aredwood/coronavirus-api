@@ -18,7 +18,8 @@ const getCoronavirusSummary = async (): Promise<ICoronavirusSummary> => {
     // parse it with cheerio
     const $ = cheerio.load(data);
 
-    const worldRow = $('tbody[class=total_row_body]').find("tr").first()
+    // const worldRow = $('tbody[class=total_row_world]').find("tr").first()
+    const worldRow = $("#main_table_countries_today").find("tbody").first().find("tr").get
 
     const headChildren = $("#main_table_countries_today").find("thead").find("tr").children();
 
