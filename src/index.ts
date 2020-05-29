@@ -21,14 +21,14 @@ const handler = async (req: Request,res: Response): Promise<void> => {
         const [summary,breakdown] = await Promise.all([getCoronavirusSummary(),getCoronavirusCountryBreakdown()]);
 
         const summaryValidationSchema = Joi.object({
-            deaths: Joi.number().min(0),
-            cases: Joi.number().min(0),
-            newCases: Joi.number().min(0),
-            newDeaths: Joi.number().min(0),
-            recovered: Joi.number().min(0),
-            activeCases: Joi.number().min(0),
-            seriousCases: Joi.number().min(0),
-            casesPer1M: Joi.number().min(0)
+            deaths: Joi.number().min(1),
+            cases: Joi.number().min(1),
+            newCases: Joi.number().min(1),
+            newDeaths: Joi.number().min(1),
+            recovered: Joi.number().min(1),
+            activeCases: Joi.number().min(1),
+            seriousCases: Joi.number().min(1),
+            casesPer1M: Joi.number().min(1)
         })
 
         const countryValidationSchema = Joi.object({
