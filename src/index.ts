@@ -1,5 +1,5 @@
 // import getCoronavirusSummary from "./lib/getCoronavirusSummary";
-import {Request,Response, request} from "express";
+import {Request,Response} from "express";
 import lodash from "lodash"
 import Joi from '@hapi/joi';
 import getCoronavirusCountryBreakdown from "./lib/getCoronavirusCountryBreakdown";
@@ -10,7 +10,6 @@ import logger from "./logger"
 let cache = {};
 const cacheTime = 0;
 
-
 const handler = async (req: Request,res: Response): Promise<void> => {
     const clientIp = requestIp.getClientIp(req);
     const log = logger.child({
@@ -18,7 +17,6 @@ const handler = async (req: Request,res: Response): Promise<void> => {
     })
 
     log.info("Client Address");
-
 
     let response;
 
