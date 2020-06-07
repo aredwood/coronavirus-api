@@ -19,6 +19,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@google-cloud/logging": "^7.3.0",
     "@hapi/joi": "^17.1.1",
     "@types/hapi__joi": "^17.1.0",
     "axios": "^0.19.2",
