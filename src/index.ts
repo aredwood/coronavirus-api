@@ -1,14 +1,24 @@
 // import getCoronavirusSummary from "./lib/getCoronavirusSummary";
-import {Request,Response} from "express";
+import {Request,Response, request} from "express";
 import lodash from "lodash"
 import Joi from '@hapi/joi';
 import getCoronavirusCountryBreakdown from "./lib/getCoronavirusCountryBreakdown";
 import getCoronavirusSummary from "./lib/getCoronavirusSummary";
+import requestIp from "request-ip";
+import logger from "./logger"
 // https://cloud.google.com/functions/docs/bestpractices/tips#use_global_variables_to_reuse_objects_in_future_invocations
 let cache = {};
 const cacheTime = 0;
 
+
 const handler = async (req: Request,res: Response): Promise<void> => {
+    const clientIp = requestIp.getClientIp(req);
+    const log = logger.child({
+        clientIp
+    })
+
+    log.info("Client Address");
+
 
     let response;
 
