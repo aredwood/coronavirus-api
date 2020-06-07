@@ -2,20 +2,21 @@
 
 steps:
     # install packages
-    - name: 'gcr.io/cloud-builders/yarn'
+    - name: 'aredwood/env:dev'
       id: "packages"
+      args: ["yarn"]
     
     # unit test
-    - name: 'gcr.io/cloud-builders/yarn'
-      args: ['run','test']
+    - name: 'aredwood/env:dev'
+      args: ['yarn','run','test']
       waitFor: ["packages"]
     # lint
-    - name: 'gcr.io/cloud-builders/yarn'
-      args: ['run','lint']
+    - name: 'aredwood/env:dev'
+      args: ['yarn','run','lint']
       waitFor: ['packages']
     # compile
-    - name: 'gcr.io/cloud-builders/yarn'
-      args: ['run','build']
+    - name: 'aredwood/env:dev'
+      args: ['yarn','run','build']
       waitFor: ['packages']
     
     # send it 
