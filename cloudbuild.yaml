@@ -2,19 +2,19 @@
 
 steps:
     # install packages
-    - name: 'aredwood/env'
+    - name: 'aredwood/env:dev'
       id: "packages"
     
     # unit test
-    - name: 'aredwood/env'
+    - name: 'aredwood/env:dev'
       args: ['yarn','run','test']
       waitFor: ["packages"]
     # lint
-    - name: 'aredwood/env'
+    - name: 'aredwood/env:dev'
       args: ['yarn','run','lint']
       waitFor: ['packages']
     # compile
-    - name: 'aredwood/env'
+    - name: 'aredwood/env:dev'
       args: ['yarn','run','build']
       waitFor: ['packages']
     
