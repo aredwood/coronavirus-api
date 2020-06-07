@@ -4,6 +4,7 @@ steps:
     # install packages
     - name: 'aredwood/env:dev'
       id: "packages"
+      args: ["yarn"]
     
     # unit test
     - name: 'aredwood/env:dev'
